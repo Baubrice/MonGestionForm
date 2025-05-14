@@ -2,6 +2,7 @@ package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.model.Utilisateur;
 import com.ofpo.GestionnaireFormation.repository.UtilisateurRepository;
+import com.ofpo.GestionnaireFormation.service.UtilisateurService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,17 +20,12 @@ public class UtilisateurController {
     }
 
     @GetMapping("/demo")
-    // localhost:8080/utilisateur/demo
     public String demo(){
         return "ghjghj";
     }
 
     @GetMapping("/")
-    public List<Utilisateur> findAll() {
-        // retourner la liste complète des utilisateurs
-        // j'utilise le repo utilisateur pour faire un findAll et retourner les resultats
-        return this.utilisateurRepository.findAll();
-    }
+    public List<Utilisateur> findAll() {return this.utilisateurRepository.findAll();}
 
     @GetMapping("/{matricule}")
     public Utilisateur findByMatricule(@PathVariable String matricule) {
@@ -62,5 +58,7 @@ public class UtilisateurController {
         return utilisateurService.updateSatut(utilisateur);
         // desactive un utilisateur en base de données
     }
+
+
 
 }

@@ -5,13 +5,13 @@ import com.ofpo.GestionnaireFormation.repository.UtilisateurRepository;
 
 import java.util.List;
 
+
 public class UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
 
     public UtilisateurService(UtilisateurRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
-
     }
 
     public List<Utilisateur> findAll(){
@@ -26,11 +26,10 @@ public class UtilisateurService {
     public void create(Utilisateur utilisateur) {
         this.utilisateurRepository.save(utilisateur);
     }
-        public void update(Utilisateur utilisateur) {
+    public void update(Utilisateur utilisateur) {
         this.utilisateurRepository.save(utilisateur);
     }
-    public void delete(Utilisateur utilisateur) {
+    public void delete(Utilisateur utilisateur) { this.utilisateurRepository.delete(utilisateur); }
 
-    }
 
 }
