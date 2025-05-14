@@ -2,6 +2,9 @@ package com.ofpo.GestionnaireFormation.model;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {
@@ -18,6 +21,34 @@ public class Utilisateur {
     private String ville;
 //    private String motDePasse;
     private Boolean statut;
+
+    @ManyToMany
+    @JoinTable(name = "utilisateur_formation_fonction",
+            joinColumns = @JoinColumn(name = "id_utilisateur"),
+            inverseJoinColumns = @JoinColumn(name = "id_formation"))
+    private Set<Formation> formations = new LinkedHashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "utilisateur_roles",
+            joinColumns = @JoinColumn(name = "id_utilisateur"),
+            inverseJoinColumns = @JoinColumn(name = "id_role"))
+    private Set<Role> roles = new LinkedHashSet<>();
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Formation> getFormations() {
+        return formations;
+    }
+
+    public void setFormations(Set<Formation> formations) {
+        this.formations = formations;
+    }
 
     public Long getId() {
         return id;

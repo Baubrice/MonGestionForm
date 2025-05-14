@@ -2,7 +2,6 @@ package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.model.Utilisateur;
 import com.ofpo.GestionnaireFormation.repository.UtilisateurRepository;
-import com.ofpo.GestionnaireFormation.service.UtilisateurService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
