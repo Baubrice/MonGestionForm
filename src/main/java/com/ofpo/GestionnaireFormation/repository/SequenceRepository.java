@@ -1,4 +1,8 @@
 package com.ofpo.GestionnaireFormation.repository;
 
-public interface SequenceRepository {
+import com.ofpo.GestionnaireFormation.model.Sequence;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SequenceRepository extends JpaRepository<Sequence, Long> {
+    Sequence findByLibelle(String libelle);
 }

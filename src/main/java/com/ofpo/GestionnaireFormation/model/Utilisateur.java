@@ -66,14 +66,6 @@ public class Utilisateur {
         this.matricule = matricule;
     }
 
-//    public String getAvatar() {
-//        return avatar;
-//    }
-//
-//    public void setAvatar(String avatar) {
-//        this.avatar = avatar;
-//    }
-
     public String getNom() {
         return nom;
     }
@@ -121,14 +113,6 @@ public class Utilisateur {
     public void setVille(String ville) {
         this.ville = ville;
     }
-
-//    public String getMotDePasse() {
-//        return motDePasse;
-//    }
-//
-//    public void setMotDePasse(String motDePasse) {
-//        this.motDePasse = motDePasse;
-//    }
 
     public Boolean getStatut() {
         return statut;
