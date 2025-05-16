@@ -1,37 +1,53 @@
 package com.ofpo.GestionnaireFormation.controller;
 
-
 import com.ofpo.GestionnaireFormation.model.Sequence;
-import com.ofpo.GestionnaireFormation.repository.SequenceRepository;
 import com.ofpo.GestionnaireFormation.service.SequenceService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/sequence")
+@RequestMapping("/sequences")
 public class SequenceController {
 
-    private final SequenceRepository sequenceRepository;
     private final SequenceService sequenceService;
 
-    public SequenceController(SequenceRepository sequenceRepository, SequenceService sequenceService) {
-        this.sequenceRepository = sequenceRepository;
+    public SequenceController(SequenceService sequenceService) {
         this.sequenceService = sequenceService;
-
-    @GetMapping("/")
-    public List<Sequence> findAll(){ return this.sequenceRepository.findAll();}
-
-    @GetMapping("/{libelle}")
-    public Sequence findByLibelle(@PathVariable String libelle) {
-        return this.sequenceRepository.findByLibelle(libelle);
-        }
-
-
-
     }
 
+    @GetMapping({"", "/"})
+    public List<Sequence> getAllSequences() {
+        return sequenceService.getAllSequences();
+    }
+
+    @GetMapping("/module/{moduleId}")
+    public Optional<Sequence> getSequencesByModule(@PathVariable Long moduleId) {
+        return sequenceService.getSequencesByModuleId(moduleId);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Sequence> getSequenceById(@PathVariable Long id) {
+        return sequenceService.getSequenceById(id);
+    }
+
+//    @GetMapping("/{libelle}")
+//    public Optional<Sequence> getSequenceByLibelle(@PathVariable String libelle) {
+//        return Optional.ofNullable(sequenceService.findByLibelle());
+//    }
+
+    @PostMapping("/create")
+    public Sequence createSequence(@RequestBody Sequence sequence) {
+        return sequenceService.createSequence(String.valueOf(sequence));
+    }
+
+    @PutMapping("/update/{id}")
+    public Optional<Sequence> updateSequence(@PathVariable Long id, @RequestBody Sequence details) {
+        return sequenceService.updateSequence(id, details);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteSequence(@PathVariable Long id) {
+        sequenceService.deleteSequence(id);
+    }
 }

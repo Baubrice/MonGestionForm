@@ -1,8 +1,6 @@
 package com.ofpo.GestionnaireFormation.model;
 
-
 import jakarta.persistence.*;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 

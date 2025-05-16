@@ -2,10 +2,11 @@ package com.ofpo.GestionnaireFormation.service;
 
 import com.ofpo.GestionnaireFormation.model.Utilisateur;
 import com.ofpo.GestionnaireFormation.repository.UtilisateurRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
@@ -23,13 +24,13 @@ public class UtilisateurService {
     }
 
 
-    public void create(Utilisateur utilisateur) {
+    public void createUtilisateur(Utilisateur utilisateur) {
         this.utilisateurRepository.save(utilisateur);
     }
-    public void update(Utilisateur utilisateur) {
+    public void updateUtilisateur(Utilisateur utilisateur) {
         this.utilisateurRepository.save(utilisateur);
     }
-    public void delete(Utilisateur utilisateur) { this.utilisateurRepository.delete(utilisateur); }
+    public void deleteUtilisateur(Utilisateur utilisateur) { this.utilisateurRepository.delete(utilisateur); }
 
 
 }

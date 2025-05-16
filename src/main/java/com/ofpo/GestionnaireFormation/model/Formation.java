@@ -39,20 +39,20 @@ public class Formation {
     @Column(name = "statut", nullable = false)
     private Boolean statut = false;
 
-    @ManyToMany
-    @JoinTable(name = "formation_centre",
-            joinColumns = @JoinColumn(name = "id_formation"),
-            inverseJoinColumns = @JoinColumn(name = "id_centre"))
-    private Set<Centre> centres = new LinkedHashSet<>();
+//    @ManyToMany
+//    @JoinTable(name = "formation_centre",
+//            joinColumns = @JoinColumn(name = "id_formation"),
+//            inverseJoinColumns = @JoinColumn(name = "id_centre"))
+//    private Set<Centre> centres = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idFormation")
-    private Set<FormationDocument> formationDocuments = new LinkedHashSet<>();
+//    @OneToMany(mappedBy = "idFormation")
+//    private Set<FormationDocument> formationDocuments = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "formations")
     private Set<Module> modules = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idFormation")
-    private Set<FormationRessource> formationRessources = new LinkedHashSet<>();
+//    @OneToMany(mappedBy = "idFormation")
+//    private Set<FormationRessource> formationRessources = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "formations")
     private Set<Utilisateur> utilisateurs = new LinkedHashSet<>();
@@ -65,36 +65,12 @@ public class Formation {
         this.utilisateurs = utilisateurs;
     }
 
-    public Set<FormationRessource> getFormationRessources() {
-        return formationRessources;
-    }
-
-    public void setFormationRessources(Set<FormationRessource> formationRessources) {
-        this.formationRessources = formationRessources;
-    }
-
     public Set<Module> getModules() {
         return modules;
     }
 
     public void setModules(Set<Module> modules) {
         this.modules = modules;
-    }
-
-    public Set<FormationDocument> getFormationDocuments() {
-        return formationDocuments;
-    }
-
-    public void setFormationDocuments(Set<FormationDocument> formationDocuments) {
-        this.formationDocuments = formationDocuments;
-    }
-
-    public Set<Centre> getCentres() {
-        return centres;
-    }
-
-    public void setCentres(Set<Centre> centres) {
-        this.centres = centres;
     }
 
     public Boolean getStatut() {
@@ -135,5 +111,13 @@ public class Formation {
 
     public void setDateDebut(Instant dateDebut) {
         this.dateDebut = dateDebut;
+    }
+
+    public Object getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(Object libelle) {
+        this.libelle = libelle.toString();
     }
 }
