@@ -13,6 +13,7 @@ public class UtilisateurController {
 
     private final UtilisateurRepository utilisateurRepository;
     private final UtilisateurService utilisateurService = null;
+    private Long matricule;
 
     public UtilisateurController(UtilisateurRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
@@ -38,18 +39,22 @@ public class UtilisateurController {
 
     @PutMapping("/modifier")
     public void updateUtilisateur(@PathVariable Long matricule, @RequestBody Utilisateur utilisateur){
+        this.matricule = matricule;
         utilisateurService.updateUtilisateur(utilisateur);
     }
 
     @DeleteMapping("/supprimer")
-    public void deleteUtilisateur(@PathVariable Long matricule){
-        return utilisateurService.deleteUtilisateur(utilisateur);
+    public void deleteUtilisateur(@PathVariable Long id){
+        utilisateurService.deleteUtilisateur(id);
     }
 
-    @PutMapping("/supprimer")
-    public void updateStatut(@PathVariable Long matricule){
-        return utilisateurService.updateUtilisateur(utilisateur);
+    @PutMapping("/modifier/{statut}")
+    public String updateStatut(@PathVariable boolean statut) {
+        utilisateurService.updateStatut(statut);
+        return "Statut mis à jour !";
     }
+
+
 
 
 
