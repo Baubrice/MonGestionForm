@@ -4,7 +4,6 @@ import com.ofpo.GestionnaireFormation.model.Sequence;
 import com.ofpo.GestionnaireFormation.repository.SequenceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
 import java.util.Optional;
 

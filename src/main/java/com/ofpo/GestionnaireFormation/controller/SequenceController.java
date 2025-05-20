@@ -2,6 +2,7 @@ package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.model.Sequence;
 import com.ofpo.GestionnaireFormation.service.SequenceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import java.util.Optional;
 @RequestMapping("/sequences")
 public class SequenceController {
 
+    @Autowired
     private final SequenceService sequenceService;
 
     public SequenceController(SequenceService sequenceService) {
@@ -30,11 +32,6 @@ public class SequenceController {
     public Optional<Sequence> getSequenceById(@PathVariable Long id) {
         return sequenceService.getSequenceById(id);
     }
-
-//    @GetMapping("/{libelle}")
-//    public Optional<Sequence> getSequenceByLibelle(@PathVariable String libelle) {
-//        return Optional.ofNullable(sequenceService.findByLibelle());
-//    }
 
     @PostMapping("/create")
     public Sequence createSequence(@RequestBody Sequence sequence) {

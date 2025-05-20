@@ -3,6 +3,7 @@ package com.ofpo.GestionnaireFormation.controller;
 import com.ofpo.GestionnaireFormation.model.Utilisateur;
 import com.ofpo.GestionnaireFormation.repository.UtilisateurRepository;
 import com.ofpo.GestionnaireFormation.service.UtilisateurService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @RequestMapping("/utilisateur")
 public class UtilisateurController {
 
+    @Autowired
     private final UtilisateurRepository utilisateurRepository;
     private final UtilisateurService utilisateurService = null;
     private Long matricule;

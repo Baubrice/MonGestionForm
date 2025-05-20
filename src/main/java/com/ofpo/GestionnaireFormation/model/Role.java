@@ -1,15 +1,16 @@
 package com.ofpo.GestionnaireFormation.model;
 
-
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "roles")
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

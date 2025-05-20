@@ -3,7 +3,6 @@ package com.ofpo.GestionnaireFormation.service;
 import com.ofpo.GestionnaireFormation.repository.ModuleRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -32,15 +31,6 @@ public class ModuleService {
     public void deleteModule(Long id) {
         moduleRepository.deleteById(id);
     }
-
-//    @Transactional
-//    public Module update(Long id, Module details) {
-//        Module m = findById(id);
-//        m.setLibelle(details.getLibelle());
-//        m.setFormations(details.getFormations());
-//        m.setSequences(details.getSequences());
-//        return moduleRepository.save(m);
-//    }
 
     public void delete(Long id) {
         moduleRepository.deleteById(id);

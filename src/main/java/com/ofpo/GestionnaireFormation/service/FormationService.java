@@ -1,16 +1,12 @@
 package com.ofpo.GestionnaireFormation.service;
 
-
 import com.ofpo.GestionnaireFormation.model.Formation;
 import com.ofpo.GestionnaireFormation.repository.FormationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class FormationService {
-
 
     private final FormationRepository formationRepository;
 
@@ -27,11 +23,9 @@ public class FormationService {
                 .orElseThrow(() -> new RuntimeException("Formation non trouvée avec l'id : " + id));
     }
 
-
     public Formation create(Formation formation) {
         return formationRepository.save(formation);
     }
-
 
     public Formation update(Long id, Formation details) {
         Formation f = findById(id);
@@ -57,7 +51,6 @@ public class FormationService {
     public Formation updateFormation(Long id, Formation formation) {
         return formationRepository.save(formation);
     }
-
 
     public void deleteFormation(Long id) {
         formationRepository.deleteById(id);

@@ -1,14 +1,15 @@
 package com.ofpo.GestionnaireFormation.model;
 
-
 import jakarta.persistence.*;
-
+import lombok.Data;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "module")
 public class Module {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

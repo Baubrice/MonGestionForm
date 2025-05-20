@@ -1,11 +1,9 @@
 package com.ofpo.GestionnaireFormation.model;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
-
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -14,9 +12,9 @@ import java.util.Set;
 @Entity
 @Table(name = "formation")
 public class Formation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
     private String libelle;
     private String numeroOffre;

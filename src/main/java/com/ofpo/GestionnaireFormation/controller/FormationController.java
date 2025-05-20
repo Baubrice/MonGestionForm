@@ -2,11 +2,12 @@ package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.model.Formation;
 import com.ofpo.GestionnaireFormation.service.FormationService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@Data
 @RestController
 @RequestMapping("/formations")
 public class FormationController {
