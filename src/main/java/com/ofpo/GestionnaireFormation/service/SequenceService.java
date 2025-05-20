@@ -16,6 +16,7 @@ public class SequenceService {
         this.sequenceRepository = sequenceRepository;
     }
     public Sequence findByLibelle() {
+        String libelle = "libelle";
         return this.sequenceRepository.findByLibelle(libelle);
     }
 
@@ -46,5 +47,10 @@ public class SequenceService {
 
     public void deleteSequence(Long id) {
         sequenceRepository.deleteById(id);
+    }
+
+    public Optional<Sequence> updateSequence(Long id, Sequence details) {
+        sequenceRepository.save(details);
+        return sequenceRepository.findById(id);
     }
 }

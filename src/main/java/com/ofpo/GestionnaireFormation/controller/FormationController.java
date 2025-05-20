@@ -2,6 +2,7 @@ package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.model.Formation;
 import com.ofpo.GestionnaireFormation.service.FormationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @RequestMapping("/formations")
 public class FormationController {
 
+    @Autowired
     private final FormationService formationService;
 
     public FormationController(FormationService formationService) {
@@ -22,25 +24,23 @@ public class FormationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Formation> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(formationService.findById(id));
+    public Formation findById(@PathVariable Long id) {
+        return formationService.findById(id);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Formation> createFormation(@RequestBody Formation formation) {
-        Formation saved = formationService.createFormation(formation);
-        return ResponseEntity.ok(saved);
+    public Formation createFormation(@RequestBody Formation formation) {
+        return formationService.createFormation(formation);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Formation> updateFormation(@PathVariable Long id,@RequestBody Formation formation){
-        Formation updated = formationService.updateFormation(id, formation);
-        return ResponseEntity.ok(updated);
+    public Formation updateFormation(@PathVariable Long id, @RequestBody Formation formation) {
+        return formationService.updateFormation(id, formation);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteFormation(@PathVariable Long id) {
+    public void deleteFormation(@PathVariable Long id) {
         formationService.deleteFormation(id);
-        return ResponseEntity.noContent().build();
     }
+
 }

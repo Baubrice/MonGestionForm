@@ -1,6 +1,7 @@
 package com.ofpo.GestionnaireFormation.service;
 
 import com.ofpo.GestionnaireFormation.model.Role;
+import com.ofpo.GestionnaireFormation.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

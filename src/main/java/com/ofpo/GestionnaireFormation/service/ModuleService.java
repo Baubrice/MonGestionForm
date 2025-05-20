@@ -29,20 +29,25 @@ public class ModuleService {
         return moduleRepository.save(module);
     }
 
-    @Transactional
-    public Module update(Long id, Module details) {
-        Module m = findById(id);
-        m.setLibelle(details.getLibelle());
-        m.setFormations(details.getFormations());
-        m.setSequences(details.getSequences());
-        return moduleRepository.save(m);
+    public void deleteModule(Long id) {
+        moduleRepository.deleteById(id);
     }
+
+//    @Transactional
+//    public Module update(Long id, Module details) {
+//        Module m = findById(id);
+//        m.setLibelle(details.getLibelle());
+//        m.setFormations(details.getFormations());
+//        m.setSequences(details.getSequences());
+//        return moduleRepository.save(m);
+//    }
 
     public void delete(Long id) {
         moduleRepository.deleteById(id);
     }
 
-    public void deleteModule(Long id) {
-        moduleRepository.deleteById(id);
+    public Module update(Long id, Module module) {
+        moduleRepository.save(module);
+        return module;
     }
 }

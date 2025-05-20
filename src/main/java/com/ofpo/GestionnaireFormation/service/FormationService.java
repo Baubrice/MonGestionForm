@@ -3,12 +3,14 @@ package com.ofpo.GestionnaireFormation.service;
 
 import com.ofpo.GestionnaireFormation.model.Formation;
 import com.ofpo.GestionnaireFormation.repository.FormationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class FormationService {
+
 
     private final FormationRepository formationRepository;
 

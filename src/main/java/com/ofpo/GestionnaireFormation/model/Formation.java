@@ -2,17 +2,21 @@ package com.ofpo.GestionnaireFormation.model;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "formation")
 public class Formation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String libelle;
     private String numeroOffre;
@@ -21,7 +25,6 @@ public class Formation {
     private Instant dateRetour;
     private Instant dateRetourModif;
     private Boolean status;
-
 
     @Column(name = "date_debut", nullable = false)
     private Instant dateDebut;
@@ -35,47 +38,24 @@ public class Formation {
     @Column(name = "date_fin_pe", nullable = false)
     private Instant dateFinPe;
 
+    @Getter
     @ColumnDefault("0")
     @Column(name = "statut", nullable = false)
     private Boolean statut = false;
 
-//    @ManyToMany
-//    @JoinTable(name = "formation_centre",
-//            joinColumns = @JoinColumn(name = "id_formation"),
-//            inverseJoinColumns = @JoinColumn(name = "id_centre"))
-//    private Set<Centre> centres = new LinkedHashSet<>();
-
-//    @OneToMany(mappedBy = "idFormation")
-//    private Set<FormationDocument> formationDocuments = new LinkedHashSet<>();
-
+    @Getter
     @ManyToMany(mappedBy = "formations")
     private Set<Module> modules = new LinkedHashSet<>();
 
-//    @OneToMany(mappedBy = "idFormation")
-//    private Set<FormationRessource> formationRessources = new LinkedHashSet<>();
-
+    @Getter
     @ManyToMany(mappedBy = "formations")
     private Set<Utilisateur> utilisateurs = new LinkedHashSet<>();
-
-    public Set<Utilisateur> getUtilisateurs() {
-        return utilisateurs;
-    }
 
     public void setUtilisateurs(Set<Utilisateur> utilisateurs) {
         this.utilisateurs = utilisateurs;
     }
 
-    public Set<Module> getModules() {
-        return modules;
-    }
-
-    public void setModules(Set<Module> modules) {
-        this.modules = modules;
-    }
-
-    public Boolean getStatut() {
-        return statut;
-    }
+    public void setModules(Set<Module> modules) { this.modules = modules; }
 
     public void setStatut(Boolean statut) {
         this.statut = statut;
@@ -84,7 +64,6 @@ public class Formation {
     public Instant getDateFinPe() {
         return dateFinPe;
     }
-
     public void setDateFinPe(Instant dateFinPe) {
         this.dateFinPe = dateFinPe;
     }
@@ -92,7 +71,6 @@ public class Formation {
     public Instant getDateDebutPe() {
         return dateDebutPe;
     }
-
     public void setDateDebutPe(Instant dateDebutPe) {
         this.dateDebutPe = dateDebutPe;
     }
@@ -100,7 +78,6 @@ public class Formation {
     public Instant getDateFin() {
         return dateFin;
     }
-
     public void setDateFin(Instant dateFin) {
         this.dateFin = dateFin;
     }
@@ -108,7 +85,6 @@ public class Formation {
     public Instant getDateDebut() {
         return dateDebut;
     }
-
     public void setDateDebut(Instant dateDebut) {
         this.dateDebut = dateDebut;
     }
@@ -116,8 +92,8 @@ public class Formation {
     public Object getLibelle() {
         return libelle;
     }
+    public void setLibelle(Object libelle) { this.libelle = libelle.toString(); }
 
-    public void setLibelle(Object libelle) {
-        this.libelle = libelle.toString();
-    }
+    public Object getNumeroOffre() { return numeroOffre == null ? "" : numeroOffre;  }
+    public void setNumeroOffre(Object numeroOffre) { this.numeroOffre = numeroOffre.toString(); }
 }

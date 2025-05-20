@@ -12,48 +12,24 @@ public class Utilisateur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String matricule;
-//    private String avatar;
     private String nom;
     private String prenom;
     private String adresseMail;
     private String adressePostal;
     private String codePostal;
     private String ville;
-//    private String motDePasse;
     private Boolean statut;
-
-    @ManyToMany
-    @JoinTable(name = "utilisateur_formation_fonction",
-            joinColumns = @JoinColumn(name = "id_utilisateur"),
-            inverseJoinColumns = @JoinColumn(name = "id_formation"))
-    private Set<Formation> formations = new LinkedHashSet<>();
 
     @ManyToMany
     @JoinTable(name = "utilisateur_roles",
             joinColumns = @JoinColumn(name = "id_utilisateur"),
             inverseJoinColumns = @JoinColumn(name = "id_role"))
-    private Set<Role> roles = new LinkedHashSet<>();
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public Set<Formation> getFormations() {
-        return formations;
-    }
-
-    public void setFormations(Set<Formation> formations) {
-        this.formations = formations;
-    }
+    private Set<Role> role = new LinkedHashSet<>();
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -61,7 +37,6 @@ public class Utilisateur {
     public String getMatricule() {
         return matricule;
     }
-
     public void setMatricule(String matricule) {
         this.matricule = matricule;
     }
@@ -69,7 +44,6 @@ public class Utilisateur {
     public String getNom() {
         return nom;
     }
-
     public void setNom(String nom) {
         this.nom = nom;
     }
@@ -77,7 +51,6 @@ public class Utilisateur {
     public String getPrenom() {
         return prenom;
     }
-
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
@@ -85,7 +58,6 @@ public class Utilisateur {
     public String getAdresseMail() {
         return adresseMail;
     }
-
     public void setAdresseMail(String adresseMail) {
         this.adresseMail = adresseMail;
     }
@@ -93,7 +65,6 @@ public class Utilisateur {
     public String getAdressePostal() {
         return adressePostal;
     }
-
     public void setAdressePostal(String adressePostal) {
         this.adressePostal = adressePostal;
     }
@@ -101,7 +72,6 @@ public class Utilisateur {
     public String getCodePostal() {
         return codePostal;
     }
-
     public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }
@@ -109,7 +79,6 @@ public class Utilisateur {
     public String getVille() {
         return ville;
     }
-
     public void setVille(String ville) {
         this.ville = ville;
     }
@@ -117,7 +86,6 @@ public class Utilisateur {
     public Boolean getStatut() {
         return statut;
     }
-
     public void setStatut(Boolean statut) {
         this.statut = statut;
     }

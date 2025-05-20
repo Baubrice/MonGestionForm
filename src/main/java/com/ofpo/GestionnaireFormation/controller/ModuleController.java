@@ -1,7 +1,7 @@
 package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.service.ModuleService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +10,7 @@ import java.util.List;
 @RequestMapping("/modules")
 public class ModuleController {
 
+    @Autowired
     private final ModuleService moduleService;
 
     public ModuleController(ModuleService moduleService) {
@@ -22,22 +23,18 @@ public class ModuleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Module> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(moduleService.findById(id));
+    public Module findById(@PathVariable Long id) {
+        return moduleService.findById(id);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Module> create(@RequestBody Module module) {
-        Module saved = moduleService.createModule(module);
-        return ResponseEntity.ok(saved);
+    public Module create(@RequestBody Module module) {
+        return moduleService.createModule(module);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Module> update(
-            @PathVariable Long id,
-            @RequestBody Module module) {
-        Module updated = moduleService.update(id, module);
-        return ResponseEntity.ok(updated);
+    public Module update(@PathVariable Long id, @RequestBody Module module) {
+        return moduleService.update(id, module);
     }
 
     @DeleteMapping("/delete/{id}")
