@@ -2,12 +2,10 @@ package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.model.Formation;
 import com.ofpo.GestionnaireFormation.service.FormationService;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@Data
 @RestController
 @RequestMapping("/formations")
 public class FormationController {
@@ -15,9 +13,7 @@ public class FormationController {
     @Autowired
     private final FormationService formationService;
 
-    public FormationController(FormationService formationService) {
-        this.formationService = formationService;
-    }
+    public FormationController(FormationService formationService) { this.formationService = formationService; }
 
     @GetMapping("/")
     public List<Formation> findAll() {

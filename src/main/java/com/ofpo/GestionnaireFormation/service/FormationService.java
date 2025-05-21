@@ -23,27 +23,6 @@ public class FormationService {
                 .orElseThrow(() -> new RuntimeException("Formation non trouvée avec l'id : " + id));
     }
 
-    public Formation create(Formation formation) {
-        return formationRepository.save(formation);
-    }
-
-    public Formation update(Long id, Formation details) {
-        Formation f = findById(id);
-        f.setLibelle(details.getLibelle());
-        f.setNumeroOffre(details.getNumeroOffre());
-        f.setDateDebut(details.getDateDebut());
-        f.setDateFin(details.getDateFin());
-        f.setDateDebutPe(details.getDateDebutPe());
-        f.setDateFinPe(details.getDateFinPe());
-        f.setStatut(details.getStatut());
-        f.setModules(details.getModules());
-        return formationRepository.save(f);
-    }
-
-    public void delete(Long id) {
-        formationRepository.deleteById(id);
-    }
-
     public Formation createFormation(Formation formation) {
         return formationRepository.save(formation);
     }
@@ -55,4 +34,22 @@ public class FormationService {
     public void deleteFormation(Long id) {
         formationRepository.deleteById(id);
     }
+
+    //    public Formation create(Formation formation) {
+//        return formationRepository.save(formation);
+//    }
+
+//    public Formation update(Long id, Formation details) {
+//        Formation f = findById(id);
+//        f.setLibelle(details.getLibelle());
+//        f.setNumeroOffre(details.getNumeroOffre());
+//        f.setDateDebut(details.getDateDebut());
+//        f.setDateFin(details.getDateFin());
+//        f.setDateDebutPe(details.getDateDebutPe());
+//        f.setDateFinPe(details.getDateFinPe());
+//        f.setStatut(details.getStatut());
+//        f.setModules(details.getModules());
+//        return formationRepository.save(f);
+//    }
+
 }
