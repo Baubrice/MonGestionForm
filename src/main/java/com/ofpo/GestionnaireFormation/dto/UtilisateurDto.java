@@ -1,5 +1,7 @@
 package com.ofpo.GestionnaireFormation.dto;
 
+import java.util.List;
+
 public class UtilisateurDto {
 
     private String matricule;
@@ -54,27 +56,31 @@ public class UtilisateurDto {
         this.adresseMail = adresseMail;
     }
 
-    public String getAdressePostal() {
-        return adressePostal;
+    public String getAdressePostal(String adressePostal) {
+        return this.adressePostal;
     }
 
     public void setAdressePostal(String adressePostal) {
         this.adressePostal = adressePostal;
     }
 
-    public String getCodePostal() {
-        return codePostal;
+    public String getCodePostal(String codePostal) {
+        return this.codePostal;
     }
 
     public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }
 
-    public String getVille() {
-        return ville;
+    public String getVille(String ville) {
+        return this.ville;
     }
 
     public void setVille(String ville) {
         this.ville = ville;
     }
+
+
+
+    public void setRole(List<RoleDto> roleDtos) {  }
 }

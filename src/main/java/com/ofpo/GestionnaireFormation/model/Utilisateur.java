@@ -2,6 +2,7 @@ package com.ofpo.GestionnaireFormation.model;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -89,5 +90,13 @@ public class Utilisateur {
     }
     public void setStatut(Boolean statut) {
         this.statut = statut;
+    }
+
+    public Set<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<Role> role) {
+        this.role = role;
     }
 }

@@ -1,11 +1,14 @@
 package com.ofpo.GestionnaireFormation.controller;
 
+import com.ofpo.GestionnaireFormation.dto.RoleDto;
+import com.ofpo.GestionnaireFormation.dto.UtilisateurDto;
 import com.ofpo.GestionnaireFormation.model.Utilisateur;
 import com.ofpo.GestionnaireFormation.repository.UtilisateurRepository;
 import com.ofpo.GestionnaireFormation.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,13 +24,47 @@ public class UtilisateurController {
         this.utilisateurRepository = utilisateurRepository;
     }
 
+//    @GetMapping("/demo")
+//    public String demo(){
+//        return "test de JSON";
+//    }
+
     @GetMapping("/demo")
-    public String demo(){
-        return "ghjghj";
+        public List<String> demo(){
+        List<String> demos = new ArrayList<>();
+        demos.add("foo");
+        demos.add("bar");
+        demos.add("foobar");
+        return demos.stream().filter(nom -> nom.length() <= 6).toList();
     }
 
+//    @GetMapping("/")
+//    public List<Utilisateur> findAll() {return this.utilisateurRepository.findAll();}
+
     @GetMapping("/")
-    public List<Utilisateur> findAll() {return this.utilisateurRepository.findAll();}
+    public List<UtilisateurDto> findAll() {
+        List<Utilisateur> utilisateurs=  this.utilisateurRepository.findAll();
+
+        return utilisateurs.stream().map(utilisateur -> {
+    // dans l'utilisateur va chercher uniquement les infos à afficher en JSON
+            UtilisateurDto dto = new UtilisateurDto();
+            dto.setMatricule(utilisateur.getMatricule());
+            dto.setNom(utilisateur.getNom());
+            dto.setPrenom(utilisateur.getPrenom());
+            dto.setAdresseMail(utilisateur.getAdresseMail());
+            dto.getAdressePostal(utilisateur.getAdressePostal());
+            dto.getCodePostal(utilisateur.getCodePostal());
+            dto.getVille(utilisateur.getVille());
+
+    // dans role aller chercher le libelle
+            List<RoleDto> roleDtos = utilisateur.getRole().stream()
+                    .map(role -> new RoleDto(role.getLibelle()))
+                    .toList();
+            dto.setRole(roleDtos);
+            return dto;
+        })
+                .toList();
+    }
 
     @GetMapping("/{matricule}")
     public Utilisateur findByMatricule(@PathVariable String matricule) {
