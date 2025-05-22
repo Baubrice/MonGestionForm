@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -87,11 +88,16 @@ public class Formation {
         this.dateDebut = dateDebut;
     }
 
-    public Object getLibelle() {
+    public String getLibelle() {
         return libelle;
     }
     public void setLibelle(Object libelle) { this.libelle = libelle.toString(); }
 
-    public Object getNumeroOffre() { return numeroOffre == null ? "" : numeroOffre;  }
+    public String getNumeroOffre() { return numeroOffre == null ? "" : numeroOffre;  }
     public void setNumeroOffre(Object numeroOffre) { this.numeroOffre = numeroOffre.toString(); }
+
+    public Arrays getUtilisateur() {
+        return null;
+    }
+
 }

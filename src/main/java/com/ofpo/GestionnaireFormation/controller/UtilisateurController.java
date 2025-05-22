@@ -70,7 +70,6 @@ public class UtilisateurController {
     public Utilisateur findByMatricule(@PathVariable String matricule) {
         return this.utilisateurRepository.findByMatricule(matricule);
     }
-
     @PostMapping("/ajouter")
     public void add(@RequestBody Utilisateur utilisateur){
         utilisateurService.createUtilisateur(utilisateur);

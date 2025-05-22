@@ -1,8 +1,8 @@
 package com.ofpo.GestionnaireFormation.controller;
 
+import com.ofpo.GestionnaireFormation.dto.SequenceDto;
 import com.ofpo.GestionnaireFormation.model.Sequence;
 import com.ofpo.GestionnaireFormation.service.SequenceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -11,16 +11,20 @@ import java.util.Optional;
 @RequestMapping("/sequences")
 public class SequenceController {
 
-    @Autowired
+
     private final SequenceService sequenceService;
 
     public SequenceController(SequenceService sequenceService) {
         this.sequenceService = sequenceService;
     }
 
-    @GetMapping({"", "/"})
-    public List<Sequence> getAllSequences() {
-        return sequenceService.getAllSequences();
+    @GetMapping({"/"})
+    public List<SequenceDto> getAllSequences() {
+        List<Sequence> sequences = this.sequenceService.getAllSequences();
+
+        return sequences.stream().map(sequence -> new SequenceDto(sequence.getLibelle())).toList();
+
+//        return sequenceService.getAllSequences();
     }
 
     @GetMapping("/module/{moduleId}")

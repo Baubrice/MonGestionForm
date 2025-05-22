@@ -1,30 +1,40 @@
 package com.ofpo.GestionnaireFormation.dto;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Date;
 
 public class FormationDto {
 
     private String libelle;
     private String numeroOffre;
-    private Instant dateCreation;
-    private Instant dateModification;
-    private Instant dateRetour;
-    private Instant dateRetourModif;
+    private LocalDateTime dateCreation;
+    private LocalDateTime dateModification;
+    private LocalDateTime dateRetour;
+    private LocalDateTime dateRetourModif;
 
 
-    public FormationDto(String libelle) {
+    public FormationDto(String libelle,String numeroOffre , Date dateCreation, Date dateModification, Date dateRetour, Date dateRetourModif) {
 
         this.libelle = libelle;
-        this.dateCreation = Instant.now();
-        this.dateModification = Instant.now();
-        this.dateRetour = Instant.now();
-        this.dateRetourModif = Instant.now();
+        this.numeroOffre = numeroOffre;
+        this.dateCreation = dateCreation;
+        this.dateModification = dateModification;
+        this.dateRetour = dateRetour;
+        this.dateRetourModif = dateRetourModif;
+
+
 
     }
 
         // constructeur vide à utiliser pour debug par exemple
     public FormationDto() {
 
+    }
+
+    public FormationDto(String libelle, String numeroOffre, Instant dateCreation, Instant dateModification, Instant dateRetour, Instant dateRetourModif) {
+        return;
     }
 
     public String getLibelle() {
@@ -43,35 +53,39 @@ public class FormationDto {
         this.numeroOffre = numeroOffre;
     }
 
-    public Instant getDateCreation() {
+    public LocalDateTime getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(Instant dateCreation) {
+    public void setDateCreation(LocalDateTime dateCreation) {
         this.dateCreation = dateCreation;
     }
 
-    public Instant getDateModification() {
+    public LocalDateTime getDateModification() {
         return dateModification;
     }
 
-    public void setDateModification(Instant dateModification) {
+    public void setDateModification(LocalDateTime dateModification) {
         this.dateModification = dateModification;
     }
 
-    public Instant getDateRetour() {
+    public LocalDateTime getDateRetour() {
         return dateRetour;
     }
 
-    public void setDateRetour(Instant dateRetour) {
+    public void setDateRetour(LocalDateTime dateRetour) {
         this.dateRetour = dateRetour;
     }
 
-    public Instant getDateRetourModif() {
+    public LocalDateTime getDateRetourModif() {
         return dateRetourModif;
     }
 
-    public void setDateRetourModif(Instant dateRetourModif) {
+    public void setDateRetourModif(LocalDateTime dateRetourModif) {
         this.dateRetourModif = dateRetourModif;
+    }
+
+    public Arrays getUtilisateur() {
+        return null;
     }
 }

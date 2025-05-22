@@ -1,8 +1,8 @@
 package com.ofpo.GestionnaireFormation.controller;
 
+import com.ofpo.GestionnaireFormation.dto.RoleDto;
 import com.ofpo.GestionnaireFormation.model.Role;
 import com.ofpo.GestionnaireFormation.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/roles")
 public class RoleController {
 
-    @Autowired
+
     private final RoleService roleService;
 
     public RoleController(RoleService roleService) {
@@ -18,8 +18,12 @@ public class RoleController {
     }
 
     @GetMapping("/")
-    public List<Role> findAll() {
-        return roleService.findAll();
+    public List<RoleDto> findAll() {
+        List<Role> roles = this.roleService.findAll();
+
+        return roles.stream().map(role -> new RoleDto(role.getLibelle())).toList();
+
+//        return roleService.findAll();
     }
 
     @GetMapping("/{id}")

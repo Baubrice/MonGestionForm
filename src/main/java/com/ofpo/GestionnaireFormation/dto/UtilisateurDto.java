@@ -24,9 +24,7 @@ public class UtilisateurDto {
 
     }
 
-    public String getMatricule() {
-        return matricule;
-    }
+    public String getMatricule() { return matricule; }
 
     public void setMatricule(String matricule) {
         this.matricule = matricule;
@@ -79,8 +77,6 @@ public class UtilisateurDto {
     public void setVille(String ville) {
         this.ville = ville;
     }
-
-
 
     public void setRole(List<RoleDto> roleDtos) {  }
 }
