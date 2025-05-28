@@ -15,7 +15,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String libele;
-    private Boolean status;
+//    private Boolean statut;
 
     @Column(name = "libelle", nullable = false, length = 50)
     private String libelle;
@@ -57,6 +57,4 @@ public class Role {
     public String getLibele() { return libele;}
     public void setLibele(String libele) { this.libele = libele;}
 
-    public Boolean getStatus() {return status;}
-    public void setStatus(Boolean status) {this.status = status;}
 }

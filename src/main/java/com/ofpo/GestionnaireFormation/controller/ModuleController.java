@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/modules")
+@RequestMapping("/module")
 public class ModuleController {
 
     private final ModuleService moduleService;

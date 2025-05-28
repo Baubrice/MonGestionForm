@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/sequences")
+@RequestMapping("/sequence")
 public class SequenceController {
 
 
