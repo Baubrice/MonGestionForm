@@ -1,67 +1,63 @@
 package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.dto.FormationDto;
-import com.ofpo.GestionnaireFormation.dto.UtilisateurDto;
 import com.ofpo.GestionnaireFormation.model.Formation;
+import com.ofpo.GestionnaireFormation.repository.FormationRepository;
 import com.ofpo.GestionnaireFormation.service.FormationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/formations")
 public class FormationController {
 
-    @Autowired
     private final FormationService formationService;
-    private final FormationController formationRepository;
+    private final FormationRepository formationRepository;
 
-    public FormationController(FormationService formationService, FormationController formationRepository) {
+    
+    public FormationController(FormationService formationService, FormationRepository formationRepository) {
         this.formationService = formationService;
         this.formationRepository = formationRepository;
     }
 
     @GetMapping("/")
-    public List<Formation> findAll() {
-//        return formationService.findAll();
-        List<Formation> formations = this.formationRepository.findAll();
-
-        formations.stream().map(formation -> new FormationDto(formation.getLibelle(), formation.getNumeroOffre(), formation.getDateCreation(), formation.getDateModification(), formation.getDateRetour(), formation.getDateRetourModif()){
-            FormationDto dto = new FormationDto();
-
-
-//            dto.setLibelle(formation.getLibelle());
-//            dto.setNumeroOffre(formation.getNumeroOffre());
-//            dto.setDateCreation(formation.getDateCreation());
-//            dto.setDateModification(formation.getDateModification());
-//            dto.setDateRetour(formation.getDateRetour());
-//            dto.setDateRetourModif(formation.getDateRetourModif());
-
-//            List<UtilisateurDto> utilisateurDtos = formation.getUtilisateur().stream()
-//                    .map(utilisateur -> new UtilisateurDto(utilisateur.getMatricule()))
-//                    .toList();
-//            dto.setFormation(formationDtos);
-            return dto;
-        }).toList();}
+    public ResponseEntity<List<FormationDto>> findAll() {
+        List<Formation> formations = formationRepository.findAll();
+        List<FormationDto> formationDtos = formations.stream()
+            .map(formationService::convertToDto)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(formationDtos);
+    }
 
     @GetMapping("/{id}")
-    public Formation findById(@PathVariable Long id) {
-        return formationService.findById(id);
+    public ResponseEntity<FormationDto> findById(@PathVariable Long id) {
+        Formation formation = formationService.findById(id);
+        if (formation == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(formationService.convertToDto(formation));
     }
 
     @PostMapping("/create")
-    public Formation createFormation(@RequestBody Formation formation) {
-        return formationService.createFormation(formation);
+    public ResponseEntity<FormationDto> createFormation(@RequestBody Formation formation) {
+        Formation savedFormation = formationService.createFormation(formation);
+        return ResponseEntity.ok(formationService.convertToDto(savedFormation));
     }
 
     @PutMapping("/update/{id}")
-    public Formation updateFormation(@PathVariable Long id, @RequestBody Formation formation) {
-        return formationService.updateFormation(id, formation);
+    public ResponseEntity<FormationDto> updateFormation(@PathVariable Long id, @RequestBody Formation formation) {
+        Formation updatedFormation = formationService.updateFormation(id, formation);
+        if (updatedFormation == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(formationService.convertToDto(updatedFormation));
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteFormation(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFormation(@PathVariable Long id) {
         formationService.deleteFormation(id);
+        return ResponseEntity.noContent().build();
     }
-
 }

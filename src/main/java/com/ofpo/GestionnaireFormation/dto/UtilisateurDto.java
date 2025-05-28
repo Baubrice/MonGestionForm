@@ -1,9 +1,11 @@
 package com.ofpo.GestionnaireFormation.dto;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UtilisateurDto {
 
+    @JsonProperty("matricule")
     private String matricule;
     private String nom;
     private String prenom;
@@ -11,20 +13,14 @@ public class UtilisateurDto {
     private String adressePostal;
     private String codePostal;
     private String ville;
+    private List<RoleDto> role;
 
     public UtilisateurDto() {
-
-        this.matricule = matricule;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.adresseMail = adresseMail;
-        this.adressePostal = adressePostal;
-        this.codePostal = codePostal;
-        this.ville = ville;
-
     }
 
-    public String getMatricule() { return matricule; }
+    public String getMatricule() {
+        return matricule;
+    }
 
     public void setMatricule(String matricule) {
         this.matricule = matricule;
@@ -54,29 +50,35 @@ public class UtilisateurDto {
         this.adresseMail = adresseMail;
     }
 
-    public String getAdressePostal(String adressePostal) {
-        return this.adressePostal;
+    public String getAdressePostal() {
+        return adressePostal;
     }
 
     public void setAdressePostal(String adressePostal) {
         this.adressePostal = adressePostal;
     }
 
-    public String getCodePostal(String codePostal) {
-        return this.codePostal;
+    public String getCodePostal() {
+        return codePostal;
     }
 
     public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }
 
-    public String getVille(String ville) {
-        return this.ville;
+    public String getVille() {
+        return ville;
     }
 
     public void setVille(String ville) {
         this.ville = ville;
     }
 
-    public void setRole(List<RoleDto> roleDtos) {  }
+    public List<RoleDto> getRole() {
+        return role;
+    }
+
+    public void setRole(List<RoleDto> role) {
+        this.role = role;
+    }
 }

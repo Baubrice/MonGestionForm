@@ -1,9 +1,12 @@
 package com.ofpo.GestionnaireFormation.service;
 
+import com.ofpo.GestionnaireFormation.dto.FormationDto;
+import com.ofpo.GestionnaireFormation.dto.UtilisateurDto;
 import com.ofpo.GestionnaireFormation.model.Formation;
 import com.ofpo.GestionnaireFormation.repository.FormationRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FormationService {
@@ -20,7 +23,7 @@ public class FormationService {
 
     public Formation findById(Long id) {
         return formationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Formation non trouvée avec l'id : " + id));
+                .orElse(null);
     }
 
     public Formation createFormation(Formation formation) {
@@ -28,6 +31,11 @@ public class FormationService {
     }
 
     public Formation updateFormation(Long id, Formation formation) {
+        Formation existingFormation = findById(id);
+        if (existingFormation == null) {
+            return null;
+        }
+        formation.setId(id);
         return formationRepository.save(formation);
     }
 
@@ -35,21 +43,30 @@ public class FormationService {
         formationRepository.deleteById(id);
     }
 
-    //    public Formation create(Formation formation) {
-//        return formationRepository.save(formation);
-//    }
+    public FormationDto convertToDto(Formation formation) {
+        if (formation == null) {
+            return null;
+        }
+        
+        FormationDto dto = new FormationDto();
+        dto.setLibelle(formation.getLibelle());
+        dto.setNumeroOffre(formation.getNumeroOffre());
+        dto.setDateDebut(formation.getDateDebut());
+        dto.setDateFin(formation.getDateFin());
+        dto.setDateDebutPe(formation.getDateDebutPe());
+        dto.setDateFinPe(formation.getDateFinPe());
 
-//    public Formation update(Long id, Formation details) {
-//        Formation f = findById(id);
-//        f.setLibelle(details.getLibelle());
-//        f.setNumeroOffre(details.getNumeroOffre());
-//        f.setDateDebut(details.getDateDebut());
-//        f.setDateFin(details.getDateFin());
-//        f.setDateDebutPe(details.getDateDebutPe());
-//        f.setDateFinPe(details.getDateFinPe());
-//        f.setStatut(details.getStatut());
-//        f.setModules(details.getModules());
-//        return formationRepository.save(f);
-//    }
+        if (formation.getUtilisateur() != null) {
+            List<UtilisateurDto> utilisateurDtos = formation.getUtilisateur().stream()
+                .map(utilisateur -> {
+                    UtilisateurDto userDto = new UtilisateurDto();
+                    userDto.setMatricule(utilisateur.getMatricule());
+                    return userDto;
+                })
+                .collect(Collectors.toList());
+            dto.setUtilisateurs(utilisateurDtos);
+        }
 
+        return dto;
+    }
 }

@@ -1,15 +1,10 @@
 package com.ofpo.GestionnaireFormation.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import org.hibernate.annotations.ColumnDefault;
-import java.time.Instant;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Data
 @Entity
 @Table(name = "formation")
 public class Formation {
@@ -17,87 +12,132 @@ public class Formation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String libelle;
+    private String nom;
+    private String description;
     private String numeroOffre;
-    private Instant dateCreation;
-    private Instant dateModification;
-    private Instant dateRetour;
-    private Instant dateRetourModif;
-    private Boolean status;
+    private String libelle;
+    
+    @Column(name = "date_debut")
+    private Date dateDebut;
+    
+    @Column(name = "date_fin")
+    private Date dateFin;
+    
+    @Column(name = "date_debut_pe")
+    private Date dateDebutPe;
+    
+    @Column(name = "date_fin_pe")
+    private Date dateFinPe;
+    
+    @Column(name = "statut")
+    private Boolean statut;
 
-    @Column(name = "date_debut", nullable = false)
-    private Instant dateDebut;
-
-    @Column(name = "date_fin", nullable = false)
-    private Instant dateFin;
-
-    @Column(name = "date_debut_pe", nullable = false)
-    private Instant dateDebutPe;
-
-    @Column(name = "date_fin_pe", nullable = false)
-    private Instant dateFinPe;
-
-    @Getter
-    @ColumnDefault("0")
-    @Column(name = "statut", nullable = false)
-    private Boolean statut = false;
-
-    @Getter
-    @ManyToMany(mappedBy = "formations")
+    @ManyToMany
+    @JoinTable(name = "formation_module",
+            joinColumns = @JoinColumn(name = "id_formation"),
+            inverseJoinColumns = @JoinColumn(name = "id_module"))
     private Set<Module> modules = new LinkedHashSet<>();
 
-    @Getter
     @ManyToMany(mappedBy = "formations")
     private Set<Utilisateur> utilisateurs = new LinkedHashSet<>();
 
-    public void setUtilisateurs(Set<Utilisateur> utilisateurs) {
-        this.utilisateurs = utilisateurs;
+    public Long getId() {
+        return id;
     }
 
-    public void setModules(Set<Module> modules) { this.modules = modules; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getNumeroOffre() {
+        return numeroOffre;
+    }
+
+    public void setNumeroOffre(String numeroOffre) {
+        this.numeroOffre = numeroOffre;
+    }
+
+    public Set<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(Set<Module> modules) {
+        this.modules = modules;
+    }
+
+    public Boolean getStatut() {
+        return statut;
+    }
 
     public void setStatut(Boolean statut) {
         this.statut = statut;
     }
 
-    public Instant getDateFinPe() {
+    public Date getDateFinPe() {
         return dateFinPe;
     }
-    public void setDateFinPe(Instant dateFinPe) {
+
+    public void setDateFinPe(Date dateFinPe) {
         this.dateFinPe = dateFinPe;
     }
 
-    public Instant getDateDebutPe() {
+    public Date getDateDebutPe() {
         return dateDebutPe;
     }
-    public void setDateDebutPe(Instant dateDebutPe) {
+
+    public void setDateDebutPe(Date dateDebutPe) {
         this.dateDebutPe = dateDebutPe;
     }
 
-    public Instant getDateFin() {
+    public Date getDateFin() {
         return dateFin;
     }
-    public void setDateFin(Instant dateFin) {
+
+    public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
     }
 
-    public Instant getDateDebut() {
+    public Date getDateDebut() {
         return dateDebut;
     }
-    public void setDateDebut(Instant dateDebut) {
+
+    public void setDateDebut(Date dateDebut) {
         this.dateDebut = dateDebut;
+    }
+
+    public Set<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public void setUtilisateurs(Set<Utilisateur> utilisateurs) {
+        this.utilisateurs = utilisateurs;
     }
 
     public String getLibelle() {
         return libelle;
     }
-    public void setLibelle(Object libelle) { this.libelle = libelle.toString(); }
 
-    public String getNumeroOffre() { return numeroOffre == null ? "" : numeroOffre;  }
-    public void setNumeroOffre(Object numeroOffre) { this.numeroOffre = numeroOffre.toString(); }
-
-    public Arrays getUtilisateur() {
-        return null;
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
 
+    public Set<Utilisateur> getUtilisateur() {
+        return utilisateurs;
+    }
 }

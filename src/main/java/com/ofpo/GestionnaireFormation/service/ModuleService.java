@@ -1,5 +1,8 @@
 package com.ofpo.GestionnaireFormation.service;
 
+import com.ofpo.GestionnaireFormation.dto.ModuleDto;
+import com.ofpo.GestionnaireFormation.dto.SequenceDto;
+import com.ofpo.GestionnaireFormation.model.Module;
 import com.ofpo.GestionnaireFormation.repository.ModuleRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -20,7 +23,7 @@ public class ModuleService {
 
     public Module findById(Long id) {
         return moduleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Module non trouvé avec l'id : " + id));
+                .orElse(null);
     }
 
     @Transactional
@@ -32,12 +35,28 @@ public class ModuleService {
         moduleRepository.deleteById(id);
     }
 
-    public void delete(Long id) {
-        moduleRepository.deleteById(id);
+    public Module update(Long id, Module module) {
+        Module existingModule = findById(id);
+        if (existingModule == null) {
+            return null;
+        }
+        module.setId(id);
+        return moduleRepository.save(module);
     }
 
-    public Module update(Long id, Module module) {
-        moduleRepository.save(module);
-        return module;
+    public ModuleDto convertToDto(Module module) {
+        if (module == null) {
+            return null;
+        }
+        
+        ModuleDto dto = new ModuleDto();
+        dto.setLibelle(module.getLibelle());
+
+        List<SequenceDto> sequenceDtos = module.getSequences().stream()
+            .map(sequence -> new SequenceDto(sequence.getLibelle()))
+            .toList();
+        dto.setSequence(sequenceDtos);
+        
+        return dto;
     }
 }

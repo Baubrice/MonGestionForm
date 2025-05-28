@@ -1,40 +1,39 @@
 package com.ofpo.GestionnaireFormation.dto;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
+import java.util.List;
 
 public class FormationDto {
 
+    @JsonProperty("libelle")
     private String libelle;
+    
+    @JsonProperty("numeroOffre")
     private String numeroOffre;
-    private LocalDateTime dateCreation;
-    private LocalDateTime dateModification;
-    private LocalDateTime dateRetour;
-    private LocalDateTime dateRetourModif;
+    
+    @JsonProperty("dateDebut")
+    private Date dateDebut;
+    
+    @JsonProperty("dateFin")
+    private Date dateFin;
+    
+    @JsonProperty("dateDebutPe")
+    private Date dateDebutPe;
+    
+    @JsonProperty("dateFinPe")
+    private Date dateFinPe;
+    
+    @JsonProperty("statut")
+    private Boolean statut;
+    
+    @JsonProperty("utilisateurs")
+    private List<UtilisateurDto> utilisateurs;
+    
+    @JsonProperty("modules")
+    private List<ModuleDto> modules;
 
-
-    public FormationDto(String libelle,String numeroOffre , Date dateCreation, Date dateModification, Date dateRetour, Date dateRetourModif) {
-
-        this.libelle = libelle;
-        this.numeroOffre = numeroOffre;
-        this.dateCreation = dateCreation;
-        this.dateModification = dateModification;
-        this.dateRetour = dateRetour;
-        this.dateRetourModif = dateRetourModif;
-
-
-
-    }
-
-        // constructeur vide à utiliser pour debug par exemple
     public FormationDto() {
-
-    }
-
-    public FormationDto(String libelle, String numeroOffre, Instant dateCreation, Instant dateModification, Instant dateRetour, Instant dateRetourModif) {
-        return;
     }
 
     public String getLibelle() {
@@ -53,39 +52,60 @@ public class FormationDto {
         this.numeroOffre = numeroOffre;
     }
 
-    public LocalDateTime getDateCreation() {
-        return dateCreation;
+    public Date getDateDebut() {
+        return dateDebut;
     }
 
-    public void setDateCreation(LocalDateTime dateCreation) {
-        this.dateCreation = dateCreation;
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
-    public LocalDateTime getDateModification() {
-        return dateModification;
+    public Date getDateFin() {
+        return dateFin;
     }
 
-    public void setDateModification(LocalDateTime dateModification) {
-        this.dateModification = dateModification;
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
     }
 
-    public LocalDateTime getDateRetour() {
-        return dateRetour;
+    public Date getDateDebutPe() {
+        return dateDebutPe;
     }
 
-    public void setDateRetour(LocalDateTime dateRetour) {
-        this.dateRetour = dateRetour;
+    public void setDateDebutPe(Date dateDebutPe) {
+        this.dateDebutPe = dateDebutPe;
     }
 
-    public LocalDateTime getDateRetourModif() {
-        return dateRetourModif;
+    public Date getDateFinPe() {
+        return dateFinPe;
     }
 
-    public void setDateRetourModif(LocalDateTime dateRetourModif) {
-        this.dateRetourModif = dateRetourModif;
+    public void setDateFinPe(Date dateFinPe) {
+        this.dateFinPe = dateFinPe;
     }
 
-    public Arrays getUtilisateur() {
-        return null;
+    public Boolean getStatut() {
+        return statut;
+    }
+
+    public void setStatut(Boolean statut) {
+        this.statut = statut;
+    }
+
+    public List<UtilisateurDto> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public void setUtilisateurs(List<UtilisateurDto> utilisateurs) {
+        this.utilisateurs = utilisateurs;
+    }
+
+    public List<ModuleDto> getModules() {
+        return modules;
+    }
+
+    public void setModules(List<ModuleDto> modules) {
+        this.modules = modules;
     }
 }
+

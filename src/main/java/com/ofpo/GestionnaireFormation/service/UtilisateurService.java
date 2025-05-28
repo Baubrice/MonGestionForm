@@ -3,6 +3,7 @@ package com.ofpo.GestionnaireFormation.service;
 import com.ofpo.GestionnaireFormation.model.Utilisateur;
 import com.ofpo.GestionnaireFormation.repository.UtilisateurRepository;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,7 +15,7 @@ public class UtilisateurService {
         this.utilisateurRepository = utilisateurRepository;
     }
 
-    public List<Utilisateur> findAll(){
+    public List<Utilisateur> findAll() {
         return this.utilisateurRepository.findAll();
     }
 
@@ -22,12 +23,35 @@ public class UtilisateurService {
         return this.utilisateurRepository.findByMatricule(matricule);
     }
 
-    public void createUtilisateur(Utilisateur utilisateur) {
-        this.utilisateurRepository.save(utilisateur);
+    @Transactional
+    public Utilisateur createUtilisateur(Utilisateur utilisateur) {
+        return this.utilisateurRepository.save(utilisateur);
     }
-    public void updateUtilisateur(Utilisateur utilisateur) {
-        this.utilisateurRepository.save(utilisateur);
+
+    @Transactional
+    public Utilisateur updateUtilisateur(String matricule, Utilisateur utilisateur) {
+        Utilisateur existingUtilisateur = findByMatricule(matricule);
+        if (existingUtilisateur == null) {
+            return null;
+        }
+        utilisateur.setMatricule(matricule);
+        return this.utilisateurRepository.save(utilisateur);
     }
-    public void deleteUtilisateur(Long utilisateur) { this.utilisateurRepository.delete(utilisateur); }
-    public void updateStatut(boolean statut) { this.utilisateurRepository.update(null); }
+
+    @Transactional
+    public void deleteUtilisateur(String matricule) {
+        Utilisateur utilisateur = findByMatricule(matricule);
+        if (utilisateur != null) {
+            this.utilisateurRepository.delete(utilisateur);
+        }
+    }
+
+    @Transactional
+    public void updateStatut(String matricule, boolean statut) {
+        Utilisateur utilisateur = findByMatricule(matricule);
+        if (utilisateur != null) {
+            utilisateur.setStatut(statut);
+            this.utilisateurRepository.save(utilisateur);
+        }
+    }
 }
