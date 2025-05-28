@@ -69,4 +69,8 @@ public class FormationService {
 
         return dto;
     }
+
+    public FormationRepository getFormationRepository() {
+        return formationRepository;
+    }
 }

@@ -54,4 +54,8 @@ public class UtilisateurService {
             this.utilisateurRepository.save(utilisateur);
         }
     }
+
+    public UtilisateurRepository getUtilisateurRepository() {
+        return utilisateurRepository;
+    }
 }

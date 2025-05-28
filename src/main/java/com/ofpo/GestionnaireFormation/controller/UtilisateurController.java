@@ -147,7 +147,15 @@ public class UtilisateurController {
         return ResponseEntity.ok("Statut mis à jour avec succès !");
     }
 
-/**
+    public UtilisateurRepository getUtilisateurRepository() {
+        return utilisateurRepository;
+    }
+
+    public UtilisateurService getUtilisateurService() {
+        return utilisateurService;
+    }
+
+    /**
  * Tester les commandes javadoc
  */
 
