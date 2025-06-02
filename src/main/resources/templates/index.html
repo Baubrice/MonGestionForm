@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionnaire de Formation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .menu-item {
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        .menu-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-5px);
+        }
+        .menu-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Gestionnaire de Formation</h1>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <a href="/formations" class="text-decoration-none">
+                    <div class="menu-item">
+                        <div class="menu-icon">📚</div>
+                        <h3>Formations</h3>
+                        <p>Gérer les formations</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col-md-4">
+                <a href="/utilisateurs" class="text-decoration-none">
+                    <div class="menu-item">
+                        <div class="menu-icon">👥</div>
+                        <h3>Utilisateurs</h3>
+                        <p>Gérer les utilisateurs</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col-md-4">
+                <a href="/modules" class="text-decoration-none">
+                    <div class="menu-item">
+                        <div class="menu-icon">📑</div>
+                        <h3>Modules</h3>
+                        <p>Gérer les modules</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="col-md-4 mt-4">
+                <a href="/sequences" class="text-decoration-none">
+                    <div class="menu-item">
+                        <div class="menu-icon">📋</div>
+                        <h3>Séquences</h3>
+                        <p>Gérer les séquences</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 mt-4">
+                <a href="/roles" class="text-decoration-none">
+                    <div class="menu-item">
+                        <div class="menu-icon">🔑</div>
+                        <h3>Rôles</h3>
+                        <p>Gérer les rôles</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

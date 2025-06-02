@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Séquences</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Gestion des Séquences</h1>
+            <a href="/" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Actions</h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createSequenceModal">
+                        <i class="bi bi-plus-circle"></i> Nouvelle Séquence
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Libellé</th>
+                        <th>Description</th>
+                        <th>Durée</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="sequence : ${sequences}">
+                        <td th:text="${sequence.id}"></td>
+                        <td th:text="${sequence.libelle}"></td>
+                        <td th:text="${sequence.description}"></td>
+                        <td th:text="${sequence.duree}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-primary" 
+                                        th:onclick="'editSequence(' + ${sequence.id} + ')'">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" 
+                                        th:onclick="'deleteSequence(' + ${sequence.id} + ')'">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Création Séquence -->
+    <div class="modal fade" id="createSequenceModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouvelle Séquence</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createSequenceForm">
+                        <div class="mb-3">
+                            <label class="form-label">Libellé</label>
+                            <input type="text" class="form-control" name="libelle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Durée (en heures)</label>
+                            <input type="number" class="form-control" name="duree" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="createSequence()">Créer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function createSequence() {
+            const form = document.getElementById('createSequenceForm');
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            fetch('/sequences/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Séquence créée avec succès !');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la création de la séquence.');
+            });
+        }
+
+        function editSequence(id) {
+            fetch(`/sequences/api/${id}`)
+                .then(response => response.json())
+                .then(sequence => {
+                    const form = document.getElementById('createSequenceForm');
+                    form.querySelector('[name="libelle"]').value = sequence.libelle;
+                    form.querySelector('[name="description"]').value = sequence.description;
+                    form.querySelector('[name="duree"]').value = sequence.duree;
+                    const modal = new bootstrap.Modal(document.getElementById('createSequenceModal'));
+                    modal.show();
+                });
+        }
+
+        function deleteSequence(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette séquence ?')) {
+                fetch(`/sequences/api/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Séquence supprimée avec succès !');
+                        window.location.reload();
+                    } else {
+                        throw new Error('Erreur lors de la suppression');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Erreur lors de la suppression de la séquence.');
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

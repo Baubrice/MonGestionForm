@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Formations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Gestion des Formations</h1>
+            <a href="/" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Actions</h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createFormationModal">
+                        <i class="bi bi-plus-circle"></i> Nouvelle Formation
+                    </button>
+                    <button class="btn btn-success" id="exportBtn">
+                        <i class="bi bi-download"></i> Exporter
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Date Début</th>
+                        <th>Date Fin</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="formation : ${formations}">
+                        <td th:text="${formation.id}"></td>
+                        <td th:text="${formation.nom}"></td>
+                        <td th:text="${formation.description}"></td>
+                        <td th:text="${formation.dateDebut}"></td>
+                        <td th:text="${formation.dateFin}"></td>
+                        <td>
+                            <span th:class="${formation.statut ? 'badge bg-success' : 'badge bg-danger'}"
+                                  th:text="${formation.statut ? 'Actif' : 'Inactif'}">
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-primary" 
+                                        th:onclick="'editFormation(' + ${formation.id} + ')'">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" 
+                                        th:onclick="'deleteFormation(' + ${formation.id} + ')'">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" 
+                                        th:onclick="'toggleStatus(' + ${formation.id} + ')'">
+                                    <i class="bi bi-toggle-on"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Création Formation -->
+    <div class="modal fade" id="createFormationModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouvelle Formation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createFormationForm">
+                        <div class="mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" class="form-control" name="nom" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date Début</label>
+                            <input type="datetime-local" class="form-control" name="dateDebut">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date Fin</label>
+                            <input type="datetime-local" class="form-control" name="dateFin">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="createFormation()">Créer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function createFormation() {
+            const form = document.getElementById('createFormationForm');
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            fetch('/formations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Formation créée avec succès !');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la création de la formation.');
+            });
+        }
+
+        function editFormation(id) {
+            // Logique de modification
+            console.log('Modifier formation:', id);
+        }
+
+        function deleteFormation(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette formation ?')) {
+                // Logique de suppression
+                console.log('Supprimer formation:', id);
+            }
+        }
+
+        function toggleStatus(id) {
+            // Logique de changement de statut
+            console.log('Changer statut formation:', id);
+        }
+    </script>
+</body>
+</html> 
