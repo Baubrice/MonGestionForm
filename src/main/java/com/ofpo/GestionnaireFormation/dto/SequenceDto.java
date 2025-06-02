@@ -1,18 +1,11 @@
 package com.ofpo.GestionnaireFormation.dto;
 
+import lombok.Data;
+
+@Data
 public class SequenceDto {
-
+    private Long id;
     private String libelle;
-
-    public SequenceDto(String libelle) {
-        this.libelle = libelle;
-    }
-
-    public String getLibelle() {
-        return libelle;
-    }
-
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
-    }
+    private String description;
+    private Integer duree;
 }

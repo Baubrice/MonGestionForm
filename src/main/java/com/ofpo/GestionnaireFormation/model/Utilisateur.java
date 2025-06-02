@@ -1,51 +1,73 @@
 package com.ofpo.GestionnaireFormation.model;
 
 import jakarta.persistence.*;
-//import lombok.Data;
-//import lombok.Getter;
-import java.util.HashSet;
+import lombok.Data;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-//@Data
+@Data
 @Entity
-@Table(name = "utilisateur")
+@Table(name = "utilisateurs")
 public class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "matricule", unique = true)
-    private String matricule;
-    @Column(name = "nom")
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(unique = true, nullable = false)
+    private String pseudo;
+
+    @Column(nullable = false)
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    private boolean active = true;
+
+    @Column(name = "nom", nullable = false)
     private String nom;
-    @Column(name = "prenom")
+
+    @Column(name = "prenom", nullable = false)
     private String prenom;
+
     @Column(name = "adresse_mail")
     private String adresseMail;
+
     @Column(name = "adresse_postal")
     private String adressePostal;
 
-//    @Getter
     @Column(name = "code_postal")
     private String codePostal;
 
-//    @Getter
     @Column(name = "ville")
     private String ville;
 
-    @Column(name = "statut")
-    private Boolean statut;
-
-//    @Getter
     @ManyToMany
-    @JoinTable(name = "utilisateur_roles", joinColumns = @JoinColumn(name = "id_utilisateur"), inverseJoinColumns = @JoinColumn(name = "id_role"))
-    private Set<Role> roles = new HashSet<>();
+    @JoinTable(
+        name = "utilisateur_formation",
+        joinColumns = @JoinColumn(name = "id_utilisateur"),
+        inverseJoinColumns = @JoinColumn(name = "id_formation")
+    )
+    private Set<Formation> formations = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "utilisateurs")
-    private Set<Formation> formations = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+        name = "utilisateur_role",
+        joinColumns = @JoinColumn(name = "id_utilisateur"),
+        inverseJoinColumns = @JoinColumn(name = "id_role")
+    )
+    private Set<Role> roles = new LinkedHashSet<>();
 
-
-    // Generation des getters et setters avec intelli
+    public void setPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
+    }
 
     public Long getId() {
         return id;
@@ -53,14 +75,6 @@ public class Utilisateur {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getMatricule() {
-        return matricule;
-    }
-
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
     }
 
     public String getNom() {
@@ -79,52 +93,12 @@ public class Utilisateur {
         this.prenom = prenom;
     }
 
-    public String getAdresseMail() {
-        return adresseMail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAdresseMail(String adresseMail) {
-        this.adresseMail = adresseMail;
-    }
-
-    public String getAdressePostal() {
-        return adressePostal;
-    }
-
-    public void setAdressePostal(String adressePostal) {
-        this.adressePostal = adressePostal;
-    }
-
-    public String getCodePostal() {
-        return codePostal;
-    }
-
-    public void setCodePostal(String codePostal) {
-        this.codePostal = codePostal;
-    }
-
-    public String getVille() {
-        return ville;
-    }
-
-    public void setVille(String ville) {
-        this.ville = ville;
-    }
-
-    public Boolean getStatut() {
-        return statut;
-    }
-
-    public void setStatut(Boolean statut) {
-        this.statut = statut;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Formation> getFormations() {
@@ -135,6 +109,11 @@ public class Utilisateur {
         this.formations = formations;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-    // Getters et Setters générés par @Data
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }

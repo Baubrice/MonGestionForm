@@ -1,50 +1,77 @@
 package com.ofpo.GestionnaireFormation.controller;
 
-import com.ofpo.GestionnaireFormation.dto.RoleDto;
 import com.ofpo.GestionnaireFormation.model.Role;
 import com.ofpo.GestionnaireFormation.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
-@RestController
-@RequestMapping("/roles")
+@Controller
+@RequestMapping("/api/roles")
 public class RoleController {
 
+    @Autowired
+    private RoleService roleService;
 
-    private final RoleService roleService;
-
-    public RoleController(RoleService roleService) {
-        this.roleService = roleService;
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity<?> listRoles() {
+        return ResponseEntity.ok(roleService.findAll());
     }
 
-    @GetMapping("/")
-    public List<RoleDto> findAll() {
-        List<Role> roles = this.roleService.findAll();
-
-        return roles.stream().map(role -> new RoleDto(role.getLibelle())).toList();
-
-//        return roleService.findAll();
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<?> createRole(@RequestBody Role role) {
+        try {
+            Role savedRole = roleService.save(role);
+            return ResponseEntity.ok(savedRole);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la création du rôle: " + e.getMessage());
+        }
     }
 
-    @GetMapping("/{id}")
-    public Role findById(@PathVariable Long id) {
-        return roleService.findById(id);
+    @PutMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<?> updateRole(@PathVariable Long id, @RequestBody Role role) {
+        try {
+            role.setId(id);
+            Role updatedRole = roleService.save(role);
+            return ResponseEntity.ok(updatedRole);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la modification du rôle: " + e.getMessage());
+        }
     }
 
-    @PostMapping("/create")
-    public Role create(@RequestBody Role role) {
-        return roleService.createRole(role);
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteRole(@PathVariable Long id) {
+        try {
+            roleService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la suppression du rôle: " + e.getMessage());
+        }
     }
 
-    @PutMapping("/update/{id}")
-    public Role update(@PathVariable Long id, @RequestBody Role role) {
-        return roleService.updateRole(id, role);
+    @PutMapping("/{id}/toggle-status")
+    @ResponseBody
+    public ResponseEntity<?> toggleStatus(@PathVariable Long id) {
+        try {
+            Role role = roleService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rôle non trouvé"));
+            role.setStatut(!role.isStatut());
+            Role updatedRole = roleService.save(role);
+            return ResponseEntity.ok(updatedRole);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors du changement de statut: " + e.getMessage());
+        }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        roleService.deleteRole(id);
+    @GetMapping("/view")
+    public String viewRoles(Model model) {
+        model.addAttribute("roles", roleService.findAll());
+        return "roles";
     }
-
-
 }

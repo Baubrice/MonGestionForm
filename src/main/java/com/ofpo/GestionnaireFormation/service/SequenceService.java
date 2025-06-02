@@ -1,9 +1,11 @@
 package com.ofpo.GestionnaireFormation.service;
 
+import com.ofpo.GestionnaireFormation.dto.SequenceDto;
 import com.ofpo.GestionnaireFormation.model.Sequence;
 import com.ofpo.GestionnaireFormation.repository.SequenceRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,24 +13,31 @@ import java.util.Optional;
 public class SequenceService {
 
     private final SequenceRepository sequenceRepository;
+
+    @Autowired
     public SequenceService(SequenceRepository sequenceRepository) {
         this.sequenceRepository = sequenceRepository;
     }
-    public Sequence findByLibelle() {
-        String libelle = "libelle";
-        return this.sequenceRepository.findByLibelle(libelle);
+
+    public Sequence findByLibelle(String libelle) {
+        return sequenceRepository.findByLibelle(libelle);
     }
 
-    public Sequence createSequence(@PathVariable String libelle) {
-        return new Sequence();
+    @Transactional
+    public Sequence createSequence(Sequence sequence) {
+        return sequenceRepository.save(sequence);
     }
 
-    public void updateSequence(@PathVariable String libelle, Sequence sequence) {
-
+    public void updateSequence(String libelle, Sequence sequence) {
+        Sequence existingSequence = sequenceRepository.findByLibelle(libelle);
+        if (existingSequence != null) {
+            sequence.setId(existingSequence.getId());
+            sequenceRepository.save(sequence);
+        }
     }
 
     public void delete(Long id) {
-        this.sequenceRepository.deleteById(id);
+        sequenceRepository.deleteById(id);
     }
 
     public List<Sequence> getAllSequences() {
@@ -36,8 +45,7 @@ public class SequenceService {
     }
 
     public Optional<Sequence> getSequencesByModuleId(Long moduleId) {
-        Long id = 0L;
-        return sequenceRepository.findById(id);
+        return sequenceRepository.findByModuleId(moduleId);
     }
 
     public Optional<Sequence> getSequenceById(Long id) {
@@ -49,7 +57,37 @@ public class SequenceService {
     }
 
     public Optional<Sequence> updateSequence(Long id, Sequence details) {
-        sequenceRepository.save(details);
-        return sequenceRepository.findById(id);
+        return sequenceRepository.findById(id)
+            .map(existingSequence -> {
+                details.setId(id);
+                return sequenceRepository.save(details);
+            });
+    }
+
+    public List<Sequence> findAll() {
+        return sequenceRepository.findAll();
+    }
+
+    public Sequence findById(Long id) {
+        return sequenceRepository.findById(id)
+                .orElse(null);
+    }
+
+    public Sequence update(Long id, Sequence sequence) {
+        Sequence existingSequence = findById(id);
+        if (existingSequence == null) {
+            return null;
+        }
+        sequence.setId(id);
+        return sequenceRepository.save(sequence);
+    }
+
+    public SequenceDto convertToDto(Sequence sequence) {
+        SequenceDto dto = new SequenceDto();
+        dto.setId(sequence.getId());
+        dto.setLibelle(sequence.getLibelle());
+        dto.setDescription(sequence.getDescription());
+        dto.setDuree(sequence.getDuree());
+        return dto;
     }
 }

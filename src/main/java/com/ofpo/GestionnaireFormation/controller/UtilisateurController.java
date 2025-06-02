@@ -7,13 +7,12 @@ import com.ofpo.GestionnaireFormation.repository.UtilisateurRepository;
 import com.ofpo.GestionnaireFormation.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping("/utilisateur")
+@Controller
 public class UtilisateurController {
 
     private final UtilisateurRepository utilisateurRepository;
@@ -25,138 +24,90 @@ public class UtilisateurController {
         this.utilisateurService = utilisateurService;
     }
 
-//    @GetMapping("/demo")
-//    public String demo(){
-//        return "test de JSON";
-//    }
+    // Routes API
+    @RestController
+    @RequestMapping("/api/utilisateurs")
+    public class UtilisateurApiController {
 
-    @GetMapping("/demo")
-    public List<String> demo() {
-        List<String> demos = new ArrayList<>();
-        demos.add("foo");
-        demos.add("bar");
-        demos.add("foobar");
-        return demos.stream().filter(nom -> nom.length() <= 6).toList();
-    }
-
-//    @GetMapping("/")
-//    public List<Utilisateur> findAll() {return this.utilisateurRepository.findAll();}
-
-    @GetMapping("/")
-    public ResponseEntity<List<UtilisateurDto>> findAll() {
-        List<Utilisateur> utilisateurs = this.utilisateurRepository.findAll();
-        List<UtilisateurDto> utilisateurDtos = utilisateurs.stream()
-            .map(utilisateur -> {
-                UtilisateurDto dto = new UtilisateurDto();
-                dto.setMatricule(utilisateur.getMatricule());
-                dto.setNom(utilisateur.getNom());
-                dto.setPrenom(utilisateur.getPrenom());
-                dto.setAdresseMail(utilisateur.getAdresseMail());
-                dto.setAdressePostal(utilisateur.getAdressePostal());
-                dto.setCodePostal(utilisateur.getCodePostal());
-                dto.setVille(utilisateur.getVille());
-
-                List<RoleDto> roleDtos = utilisateur.getRoles().stream()
-                    .map(role -> new RoleDto(role.getLibelle()))
-                    .toList();
-                dto.setRole(roleDtos);
-                return dto;
-            })
-            .toList();
-        return ResponseEntity.ok(utilisateurDtos);
-    }
-
-    @GetMapping("/{matricule}")
-    public ResponseEntity<UtilisateurDto> findByMatricule(@PathVariable String matricule) {
-        Utilisateur utilisateur = this.utilisateurRepository.findByMatricule(matricule);
-        if (utilisateur == null) {
-            return ResponseEntity.notFound().build();
+        @GetMapping
+        public ResponseEntity<List<UtilisateurDto>> findAll() {
+            List<Utilisateur> utilisateurs = utilisateurRepository.findAll();
+            List<UtilisateurDto> utilisateurDtos = utilisateurs.stream()
+                .map(this::convertToDto)
+                .toList();
+            return ResponseEntity.ok(utilisateurDtos);
         }
-        
-        UtilisateurDto dto = new UtilisateurDto();
-        dto.setMatricule(utilisateur.getMatricule());
-        dto.setNom(utilisateur.getNom());
-        dto.setPrenom(utilisateur.getPrenom());
-        dto.setAdresseMail(utilisateur.getAdresseMail());
-        dto.setAdressePostal(utilisateur.getAdressePostal());
-        dto.setCodePostal(utilisateur.getCodePostal());
-        dto.setVille(utilisateur.getVille());
 
-        List<RoleDto> roleDtos = utilisateur.getRoles().stream()
-            .map(role -> new RoleDto(role.getLibelle()))
-            .toList();
-        dto.setRole(roleDtos);
-        
-        return ResponseEntity.ok(dto);
-    }
-
-    @PostMapping("/ajouter")
-    public ResponseEntity<UtilisateurDto> add(@RequestBody Utilisateur utilisateur) {
-        Utilisateur savedUtilisateur = utilisateurService.createUtilisateur(utilisateur);
-        
-        UtilisateurDto dto = new UtilisateurDto();
-        dto.setMatricule(savedUtilisateur.getMatricule());
-        dto.setNom(savedUtilisateur.getNom());
-        dto.setPrenom(savedUtilisateur.getPrenom());
-        dto.setAdresseMail(savedUtilisateur.getAdresseMail());
-        dto.setAdressePostal(savedUtilisateur.getAdressePostal());
-        dto.setCodePostal(savedUtilisateur.getCodePostal());
-        dto.setVille(savedUtilisateur.getVille());
-
-        List<RoleDto> roleDtos = savedUtilisateur.getRoles().stream()
-            .map(role -> new RoleDto(role.getLibelle()))
-            .toList();
-        dto.setRole(roleDtos);
-        
-        return ResponseEntity.ok(dto);
-    }
-
-    @PutMapping("/modifier/{matricule}")
-    public ResponseEntity<UtilisateurDto> updateUtilisateur(@PathVariable String matricule, @RequestBody Utilisateur utilisateur) {
-        Utilisateur updatedUtilisateur = utilisateurService.updateUtilisateur(matricule, utilisateur);
-        if (updatedUtilisateur == null) {
-            return ResponseEntity.notFound().build();
+        @GetMapping("/{email}")
+        public ResponseEntity<UtilisateurDto> findByEmail(@PathVariable String email) {
+            return utilisateurRepository.findByEmail(email)
+                .map(utilisateur -> ResponseEntity.ok(convertToDto(utilisateur)))
+                .orElse(ResponseEntity.notFound().build());
         }
-        
-        UtilisateurDto dto = new UtilisateurDto();
-        dto.setMatricule(updatedUtilisateur.getMatricule());
-        dto.setNom(updatedUtilisateur.getNom());
-        dto.setPrenom(updatedUtilisateur.getPrenom());
-        dto.setAdresseMail(updatedUtilisateur.getAdresseMail());
-        dto.setAdressePostal(updatedUtilisateur.getAdressePostal());
-        dto.setCodePostal(updatedUtilisateur.getCodePostal());
-        dto.setVille(updatedUtilisateur.getVille());
 
-        List<RoleDto> roleDtos = updatedUtilisateur.getRoles().stream()
-            .map(role -> new RoleDto(role.getLibelle()))
-            .toList();
-        dto.setRole(roleDtos);
-        
-        return ResponseEntity.ok(dto);
+        @GetMapping("/recherche/{nom}")
+        public ResponseEntity<List<UtilisateurDto>> findByNom(@PathVariable String nom) {
+            List<Utilisateur> utilisateurs = utilisateurRepository.findByNomContainingIgnoreCase(nom);
+            List<UtilisateurDto> utilisateurDtos = utilisateurs.stream()
+                .map(this::convertToDto)
+                .toList();
+            return ResponseEntity.ok(utilisateurDtos);
+        }
+
+        @PostMapping
+        public ResponseEntity<UtilisateurDto> create(@RequestBody Utilisateur utilisateur) {
+            Utilisateur savedUtilisateur = utilisateurService.save(utilisateur);
+            return ResponseEntity.ok(convertToDto(savedUtilisateur));
+        }
+
+        @PutMapping("/{email}")
+        public ResponseEntity<UtilisateurDto> update(@PathVariable String email, @RequestBody Utilisateur utilisateur) {
+            return utilisateurRepository.findByEmail(email)
+                .map(existingUtilisateur -> {
+                    utilisateur.setId(existingUtilisateur.getId());
+                    Utilisateur updatedUtilisateur = utilisateurService.save(utilisateur);
+                    return ResponseEntity.ok(convertToDto(updatedUtilisateur));
+                })
+                .orElse(ResponseEntity.notFound().build());
+        }
+
+        @DeleteMapping("/{email}")
+        public ResponseEntity<Void> delete(@PathVariable String email) {
+            return utilisateurRepository.findByEmail(email)
+                .map(utilisateur -> {
+                    utilisateurService.deleteById(utilisateur.getId());
+                    return ResponseEntity.noContent().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+        }
+
+        private UtilisateurDto convertToDto(Utilisateur utilisateur) {
+            UtilisateurDto dto = new UtilisateurDto();
+            dto.setId(utilisateur.getId());
+            dto.setEmail(utilisateur.getEmail());
+            dto.setNom(utilisateur.getNom());
+            dto.setPrenom(utilisateur.getPrenom());
+            dto.setAdresseMail(utilisateur.getAdresseMail());
+            dto.setAdressePostal(utilisateur.getAdressePostal());
+            dto.setCodePostal(utilisateur.getCodePostal());
+            dto.setVille(utilisateur.getVille());
+
+            List<RoleDto> roleDtos = utilisateur.getRoles().stream()
+                .map(role -> {
+                    RoleDto roleDto = new RoleDto();
+                    roleDto.setId(role.getId());
+                    roleDto.setLibelle(role.getLibelle());
+                    return roleDto;
+                })
+                .toList();
+            dto.setRoles(roleDtos);
+            return dto;
+        }
     }
 
-    @DeleteMapping("/supprimer/{matricule}")
-    public ResponseEntity<Void> deleteUtilisateur(@PathVariable String matricule) {
-        utilisateurService.deleteUtilisateur(matricule);
-        return ResponseEntity.noContent().build();
+    // Routes de vue
+    @GetMapping("/utilisateurs")
+    public String viewUtilisateurs() {
+        return "utilisateurs";
     }
-
-    @PutMapping("/modifier/statut/{matricule}")
-    public ResponseEntity<String> updateStatut(@PathVariable String matricule, @RequestParam boolean statut) {
-        utilisateurService.updateStatut(matricule, statut);
-        return ResponseEntity.ok("Statut mis à jour avec succès !");
-    }
-
-    public UtilisateurRepository getUtilisateurRepository() {
-        return utilisateurRepository;
-    }
-
-    public UtilisateurService getUtilisateurService() {
-        return utilisateurService;
-    }
-
-    /**
- * Tester les commandes javadoc
- */
-
 }
