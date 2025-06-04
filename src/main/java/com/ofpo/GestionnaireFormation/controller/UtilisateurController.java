@@ -25,11 +25,6 @@ public class UtilisateurController {
         this.utilisateurService = utilisateurService;
     }
 
-//    @GetMapping("/demo")
-//    public String demo(){
-//        return "test de JSON";
-//    }
-
     @GetMapping("/demo")
     public List<String> demo() {
         List<String> demos = new ArrayList<>();
