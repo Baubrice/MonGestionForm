@@ -1,26 +1,23 @@
 package com.ofpo.GestionnaireFormation.security;
 
-import com.ofpo.GestionnaireFormation.ui.MainApplication;
+import com.ofpo.GestionnaireFormation.ui.BaseSpringBootTest;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.testfx.framework.junit5.ApplicationTest;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
-public class SecurityTest extends ApplicationTest {
+public class SecurityTest extends BaseSpringBootTest {
 
-    private MainApplication mainApplication;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public void start(Stage stage) {
-        mainApplication = new MainApplication();
-        mainApplication.start(stage);
+        super.start(stage);
         passwordEncoder = new BCryptPasswordEncoder();
     }
 

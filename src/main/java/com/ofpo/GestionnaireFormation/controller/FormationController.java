@@ -1,7 +1,7 @@
 package com.ofpo.GestionnaireFormation.controller;
 
 import com.ofpo.GestionnaireFormation.dto.FormationDto;
-import com.ofpo.GestionnaireFormation.model.Formation;
+import com.ofpo.GestionnaireFormation.entities.Formation;
 import com.ofpo.GestionnaireFormation.repository.FormationRepository;
 import com.ofpo.GestionnaireFormation.service.FormationService;
 import org.springframework.http.ResponseEntity;
@@ -16,43 +16,39 @@ public class FormationController {
     private final FormationService formationService;
     private final FormationRepository formationRepository;
 
-    
     public FormationController(FormationService formationService, FormationRepository formationRepository) {
         this.formationService = formationService;
         this.formationRepository = formationRepository;
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<FormationDto>> findAll() {
+    public ResponseEntity<List<Formation>> findAll() {
         List<Formation> formations = formationRepository.findAll();
-        List<FormationDto> formationDtos = formations.stream()
-            .map(formationService::convertToDto)
-            .collect(Collectors.toList());
-        return ResponseEntity.ok(formationDtos);
+        return ResponseEntity.ok(formations);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FormationDto> findById(@PathVariable Long id) {
+    public ResponseEntity<Formation> findById(@PathVariable Long id) {
         Formation formation = formationService.findById(id);
         if (formation == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(formationService.convertToDto(formation));
+        return ResponseEntity.ok(formation);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<FormationDto> createFormation(@RequestBody Formation formation) {
+    public ResponseEntity<Formation> createFormation(@RequestBody Formation formation) {
         Formation savedFormation = formationService.createFormation(formation);
-        return ResponseEntity.ok(formationService.convertToDto(savedFormation));
+        return ResponseEntity.ok(savedFormation);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<FormationDto> updateFormation(@PathVariable Long id, @RequestBody Formation formation) {
+    public ResponseEntity<Formation> updateFormation(@PathVariable Long id, @RequestBody Formation formation) {
         Formation updatedFormation = formationService.updateFormation(id, formation);
         if (updatedFormation == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(formationService.convertToDto(updatedFormation));
+        return ResponseEntity.ok(updatedFormation);
     }
 
     @DeleteMapping("/delete/{id}")

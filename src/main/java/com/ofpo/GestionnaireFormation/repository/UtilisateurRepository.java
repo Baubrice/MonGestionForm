@@ -11,8 +11,4 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
     Utilisateur findByMatricule(String matricule);
 
     List<Utilisateur> id(Long id);
-
-    void delete(Long utilisateur);
-
-    void update(Object utilisateur);
 }

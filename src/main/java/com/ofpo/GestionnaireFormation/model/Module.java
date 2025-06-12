@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import com.ofpo.GestionnaireFormation.entities.Formation;
 
 @Data
 @Entity
@@ -15,10 +16,7 @@ public class Module {
     private Long id;
     private String libelle;
 
-    @ManyToMany
-    @JoinTable(name = "formation_module",
-            joinColumns = @JoinColumn(name = "id_module"),
-            inverseJoinColumns = @JoinColumn(name = "id_formation"))
+    @ManyToMany(mappedBy = "modules")
     private Set<Formation> formations = new LinkedHashSet<>();
 
     @ManyToMany

@@ -1,23 +1,14 @@
 package com.ofpo.GestionnaireFormation.security;
 
-import com.ofpo.GestionnaireFormation.ui.MainApplication;
+import com.ofpo.GestionnaireFormation.ui.BaseSpringBootTest;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 
-public class DataSecurityTest extends ApplicationTest {
-
-    private MainApplication mainApplication;
-
-    @Override
-    public void start(Stage stage) {
-        mainApplication = new MainApplication();
-        mainApplication.start(stage);
-    }
+public class DataSecurityTest extends BaseSpringBootTest {
 
     @Test
     void testDataEncryption() {

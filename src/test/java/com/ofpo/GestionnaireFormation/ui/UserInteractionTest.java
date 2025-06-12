@@ -3,20 +3,11 @@ package com.ofpo.GestionnaireFormation.ui;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.TableViewMatchers.hasNumRows;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
-public class UserInteractionTest extends ApplicationTest {
-
-    private MainApplication mainApplication;
-
-    @Override
-    public void start(javafx.stage.Stage stage) {
-        mainApplication = new MainApplication();
-        mainApplication.start(stage);
-    }
+public class UserInteractionTest extends BaseSpringBootTest {
 
     @Test
     void testTabSwitching() {

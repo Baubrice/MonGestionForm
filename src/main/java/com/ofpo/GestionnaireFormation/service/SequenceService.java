@@ -19,8 +19,10 @@ public class SequenceService {
         return this.sequenceRepository.findByLibelle(libelle);
     }
 
-    public Sequence createSequence(@PathVariable String libelle) {
-        return new Sequence();
+    public Sequence createSequence(String libelle) {
+        Sequence sequence = new Sequence();
+        sequence.setLibelle(libelle);
+        return sequenceRepository.save(sequence);
     }
 
     public void updateSequence(@PathVariable String libelle, Sequence sequence) {

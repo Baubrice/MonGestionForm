@@ -5,20 +5,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
-public class AccessibiliteTest extends ApplicationTest {
-
-    private MainApplication mainApplication;
-
-    @Override
-    public void start(Stage stage) {
-        mainApplication = new MainApplication();
-        mainApplication.start(stage);
-    }
+public class AccessibiliteTest extends BaseSpringBootTest {
 
     @Test
     void testLabelsAccessibles() {
@@ -84,7 +75,7 @@ public class AccessibiliteTest extends ApplicationTest {
         verifyThat("#mainContent", (javafx.scene.layout.VBox content) -> {
             String style = content.getStyle();
             return style.contains("-fx-background-color: white") &&
-                   style.contains("-fx-text-fill: black");
+                style.contains("-fx-text-fill: black");
         });
     }
 
@@ -119,7 +110,8 @@ public class AccessibiliteTest extends ApplicationTest {
     void testMessagesAide() {
         // Test des messages d'aide
         moveTo("#helpButton");
-        verifyThat("#tooltip", (javafx.scene.control.Tooltip tooltip) -> 
-            tooltip.getText().length() > 0);
+        verifyThat("#helpButton", (Button button) -> 
+            button.getTooltip() != null && 
+            button.getTooltip().getText().length() > 0);
     }
 } 

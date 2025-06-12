@@ -14,8 +14,6 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String libele;
-//    private Boolean statut;
 
     @Column(name = "libelle", nullable = false, length = 50)
     private String libelle;
@@ -51,10 +49,11 @@ public class Role {
         this.libelle = libelle;
     }
 
-    public Long getId() {return id;}
-    public void setId(Long id) {this.id = id;}
+    public Long getId() {
+        return id;
+    }
 
-    public String getLibele() { return libele;}
-    public void setLibele(String libele) { this.libele = libele;}
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

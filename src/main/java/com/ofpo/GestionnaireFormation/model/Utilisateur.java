@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 //import lombok.Getter;
 import java.util.HashSet;
 import java.util.Set;
+import com.ofpo.GestionnaireFormation.entities.Formation;
 
 //@Data
 @Entity
@@ -35,6 +36,9 @@ public class Utilisateur {
 
     @Column(name = "statut")
     private Boolean statut;
+
+    @Column(name = "mot_de_passe")
+    private String motDePasse;
 
 //    @Getter
     @ManyToMany
@@ -117,6 +121,14 @@ public class Utilisateur {
 
     public void setStatut(Boolean statut) {
         this.statut = statut;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
     }
 
     public Set<Role> getRoles() {
